@@ -8,6 +8,7 @@ namespace productsWebapi.GraphQl
     {
         public ProductSchema(IDependencyResolver resolver): base(resolver){
             Query = resolver.Resolve<ProductQuery>();
+            Mutation = resolver.Resolve<ProductMutation>();
             // This be uglyness!
             RegisterType<BookType>();
             RegisterType<FilmType>();

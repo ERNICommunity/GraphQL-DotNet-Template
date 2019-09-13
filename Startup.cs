@@ -23,8 +23,8 @@ namespace productsWebapi
     {
         private readonly IConfiguration _config;
         private readonly IHostingEnvironment _env;
-        private readonly IRepository<Review> _reviews;
         private readonly IRepository<IProduct> _products;
+        private readonly IMutableRepository<Review> _reviews;
         public Startup(IConfiguration config, IHostingEnvironment env)
         {
             _env = env;
@@ -43,6 +43,7 @@ namespace productsWebapi
             });
             services.AddScoped<IRepository<IProduct>>(_ => _products);
             services.AddScoped<IRepository<Review>>(_ => _reviews);
+            services.AddScoped<IMutableRepository<Review>>(_ => _reviews);
             services.AddScoped<IDependencyResolver>(s => new FuncDependencyResolver(s.GetRequiredService));
             services.AddScoped<ProductSchema>();
             

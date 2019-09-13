@@ -31,7 +31,7 @@ namespace productsWebapi
                 }
             }
         }
-        internal static void Seed(out IRepository<IProduct> products, out IRepository<Review> reviews){
+        internal static void Seed(out IRepository<IProduct> products, out IMutableRepository<Review> reviews){
             var data = new Data();
             AddBooks(ref data);
             AddFilms(ref data);
