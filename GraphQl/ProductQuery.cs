@@ -12,7 +12,7 @@ namespace productsWebapi.GraphQl
         public ProductQuery(IRepository<IProduct> repo)
         {
             const String argName = "name";
-            var args = new QueryArguments(new QueryArgument<NonNullGraphType<IdGraphType>>{Name = argName});
+            var args = new QueryArguments(new QueryArgument<NonNullGraphType<StringGraphType>>{Name = argName});
             Field<ProductInterface>(
                 "product",
                 arguments: args,
