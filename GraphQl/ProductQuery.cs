@@ -13,14 +13,14 @@ namespace productsWebapi.GraphQl
         {
             const String argName = "name";
             var args = new QueryArguments(new QueryArgument<NonNullGraphType<IdGraphType>>{Name = argName});
-            Field<ProductType>(
+            Field<ProductInterface>(
                 "product",
                 arguments: args,
                 resolve: context => {
                     var name = context.GetArgument<String>(argName);
                     return repo.FirstOrDefault(product => product.Name == name);
                 });
-            Field<ListGraphType<ProductType>>("products", resolve: _ => repo.All());
+            Field<ListGraphType<ProductInterface>>("products", resolve: _ => repo.All());
         }
     }
 }

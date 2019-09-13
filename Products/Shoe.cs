@@ -5,12 +5,12 @@ namespace productsWebapi.Products
 {
     public sealed class Shoe : Product
     {
-        public Byte Size {get;}
+        public Int32 Size {get;}
         public Shoe(String name) : this(name, 0, 0){}
-        private Shoe(String name, Byte size, Int32 stock) : base(name, stock)
+        private Shoe(String name, Int32 size, Int32 stock) : base(name, stock)
         {
             Size = size;
         }
-        public Shoe With(Byte size, Int32 stock) => new Shoe(Name, size, stock);
+        public Shoe With(Int32 size, Int32 stock) => new Shoe(Name, size, stock);
     }
 }
