@@ -18,7 +18,7 @@ namespace productsWebapi.GraphQl
             _reviewRepo = reviewRepo;
             _productRepo = productRepo;
             var args = new QueryArguments(new QueryArgument<NonNullGraphType<ReviewInputType>>{Name = reviewArg});
-            FieldAsync<ReviewInputType>("createReview", arguments: args, resolve: AddReview);
+            FieldAsync<ReviewType>("createReview", arguments: args, resolve: AddReview);
         }
 
         private async Task<Object> AddReview(ResolveFieldContext<Object> context)
@@ -33,8 +33,8 @@ namespace productsWebapi.GraphQl
             if (product == null){
                 throw new ArgumentOutOfRangeException($"No product named '{reviewDto.ProductName}' found.");
             }
-            String title = reviewDto.Title;
             String text = reviewDto.Text;
+            String title = reviewDto.Title;
             switch(product){
                 // Badness having to switch over the types!
                 case Book book:
