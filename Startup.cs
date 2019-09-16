@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using productsWebapi.GraphQl;
+using productsWebapi.GraphQl.Messaging;
 using productsWebapi.Products;
 using productsWebapi.Repositories;
 using static productsWebapi.DemoData;
@@ -45,11 +46,14 @@ namespace productsWebapi
             services.AddScoped<IRepository<Review>>(_ => _reviews);
             services.AddScoped<IMutableRepository<Review>>(_ => _reviews);
             services.AddScoped<IDependencyResolver>(s => new FuncDependencyResolver(s.GetRequiredService));
+            services.AddSingleton<ReviewMessageService>();
             services.AddScoped<ProductSchema>();
             
             services.AddGraphQL(o => { o.ExposeExceptions = _env.IsDevelopment(); })
                 .AddGraphTypes(ServiceLifetime.Scoped)
-                .AddUserContextBuilder(context => context.User);
+                .AddUserContextBuilder(context => context.User)
+                .AddWebSockets();
+            services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -63,9 +67,12 @@ namespace productsWebapi
             {
                 app.UseExceptionHandler("/Error");
             }
-
+            // Check these settings!
+            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
             //app.UseHttpsRedirection();
+            app.UseWebSockets();
             app.UseGraphQL<ProductSchema>();
+            app.UseGraphQLWebSockets<ProductSchema>();
             app.UseGraphQLPlayground(new GraphQLPlaygroundOptions());
             app.UseCookiePolicy();
         }

@@ -10,6 +10,7 @@
     <PackageReference Include="GraphQl" Version="2.4.0" />
     <PackageReference Include="GraphQl.Server.Core" Version="3.4.0" />
     <PackageReference Include="GraphQl.Server.Transports.AspNetCore" Version="3.4.0" />
+    <PackageReference Include="GraphQl.Server.Transports.WebSockets" Version="3.4.0" />
     <PackageReference Include="GraphQl.Server.Ui.Playground" Version="3.4.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />

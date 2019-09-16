@@ -8,7 +8,8 @@ namespace productsWebapi.Products
         public String Title {get;}
         public String Text {get;}
         public abstract Guid RelationId { get; }
-
+        // Badness exposing a name here :-/
+        public abstract String RelationName { get; }
         protected Review(String title, String text){
             Id = Guid.NewGuid();
             Title = title;
@@ -22,6 +23,7 @@ namespace productsWebapi.Products
         public TProduct Product {get;}
 
         public override Guid RelationId => Product.Id;
+        public override String RelationName => Product.Name;
 
         internal Review(TProduct product, String title, String text)
             :base(title, text)
