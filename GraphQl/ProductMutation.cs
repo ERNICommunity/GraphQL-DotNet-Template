@@ -23,17 +23,17 @@ namespace productsWebapi.GraphQl {
         }
 
         private async Task<Object> AddReview (ResolveFieldContext<Object> context) {
-            var review = CreateReview (context.GetArgument<ReviewDto> (reviewArg));
+            var review = await CreateReview (context.GetArgument<ReviewDto> (reviewArg)).ConfigureAwait(false);
             return await context.TryAsyncResolve (async c => {
                 Review r = await _reviewRepo.Add(review).ConfigureAwait(false);
                 _messageService.AddReviewAddedMessage(r);
                 return r;}).ConfigureAwait (false);
         }
 
-        private Review CreateReview (ReviewDto reviewDto) {
-            IProduct product = _productRepo.FirstOrDefault (p => p.Name == reviewDto.ProductName);
+        private async Task<Review> CreateReview (ReviewDto reviewDto) {
+            IProduct product = await _productRepo.Find(reviewDto.ProductId).ConfigureAwait(false);
             if (product == null) {
-                throw new ArgumentOutOfRangeException ($"No product named '{reviewDto.ProductName}' found.");
+                throw new ArgumentOutOfRangeException ($"No product with id '{reviewDto.ProductId}' found.");
             }
             String text = reviewDto.Text;
             String title = reviewDto.Title;
