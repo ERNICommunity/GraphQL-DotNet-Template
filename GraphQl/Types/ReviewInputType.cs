@@ -8,8 +8,8 @@ namespace productsWebapi.GraphQl.Types
         public ReviewInputType()
         {
             Name = "reviewInput";
+            Field<NonNullGraphType<IdGraphType>>("productId");
             Field<NonNullGraphType<StringGraphType>>("title");
-            Field<NonNullGraphType<StringGraphType>>("productName");
             Field<StringGraphType>("text");
         }
     }
