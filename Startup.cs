@@ -1,22 +1,19 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 using GraphQL;
 using GraphQL.Server;
 using GraphQL.Server.Ui.Playground;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 using productsWebapi.GraphQl;
 using productsWebapi.GraphQl.Messaging;
 using productsWebapi.Products;
 using productsWebapi.Repositories;
 using static productsWebapi.DemoData;
+using Serilog.Events;
 
 namespace productsWebapi
 {
@@ -42,6 +39,14 @@ namespace productsWebapi
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
+            var logLevel = LogEventLevel.Information;
+            ILogger log = new LoggerConfiguration()
+                                .MinimumLevel.Information()
+                                .MinimumLevel.Override("Microsoft", logLevel)
+                                .MinimumLevel.Override("GraphQL", logLevel)
+                                .WriteTo.Console()
+                                .CreateLogger();
+            services.AddLogging(l => l.AddSerilog(log));
             services.AddScoped<IRepository<IProduct>>(_ => _products);
             services.AddScoped<IRepository<Review>>(_ => _reviews);
             services.AddScoped<IMutableRepository<Review>>(_ => _reviews);
@@ -69,10 +74,8 @@ namespace productsWebapi
             }
             // Check these settings!
             app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
-            //app.UseHttpsRedirection();
-            app.UseWebSockets();
-            app.UseGraphQL<ProductSchema>();
             app.UseGraphQLWebSockets<ProductSchema>();
+            app.UseGraphQL<ProductSchema>();
             app.UseGraphQLPlayground(new GraphQLPlaygroundOptions());
             app.UseCookiePolicy();
         }
