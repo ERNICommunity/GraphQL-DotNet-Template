@@ -11,6 +11,7 @@ namespace productsWebapi.GraphQl
 {
     public sealed class ProductQuery : ObjectGraphType
     {
+        const String idArg = "id";
         const String nameArg = "name";
         const String typeArg = "type";
         const String firstArg = "first";
@@ -21,19 +22,21 @@ namespace productsWebapi.GraphQl
         {
             _repo = repo;
             var productArgs = new QueryArguments(
-                new QueryArgument<NonNullGraphType<StringGraphType>>{Name = nameArg},
-                new QueryArgument<StringGraphType>{Name = typeArg});
+                new QueryArgument<NonNullGraphType<IdGraphType>>{Name = idArg});
             var productsArgs = new QueryArguments(
-                new QueryArgument<IntGraphType>{Name = firstArg, DefaultValue=-1});
+                new QueryArgument<IntGraphType>{Name = firstArg, DefaultValue=-1},
+                new QueryArgument<StringGraphType>{Name = nameArg, DefaultValue=null},           
+                new QueryArgument<StringGraphType>{Name = typeArg, DefaultValue=null}
+                );
             Field<ProductInterface>("product", arguments: productArgs, resolve: ResolveProduct);
             Field<ListGraphType<ProductInterface>>("products", arguments: productsArgs, resolve: ResolveProducts);
         }
 
         private IProduct ResolveProduct(ResolveFieldContext<Object> context)
         {
-            var name = context.GetArgument<String>(nameArg);
+            var id = context.GetArgument<Int32>(idArg);
             var type = context.GetArgument<String>(typeArg);
-            var products = _repo.Where(product => product.Name == name);
+            var products = _repo.Where(product => product.Id == id);
             if(!String.IsNullOrEmpty(type)){
                 products = products.Where(product => product.Type == type);
             }
@@ -43,11 +46,19 @@ namespace productsWebapi.GraphQl
         private async Task<IEnumerable<IProduct>> ResolveProducts(ResolveFieldContext<Object> context)
         {
             var first = context.GetArgument<Int32>(firstArg);
+            var name = context.GetArgument<String>(nameArg);
+            var type = context.GetArgument<String>(typeArg);
             if(first == 0){
                 return NO_PRODUCTS; 
             }
-            var all = await _repo.All().ConfigureAwait(false);
-            return first < 0 ? all : all.Take(first);
+            var products = await _repo.All().ConfigureAwait(false);
+            if(name != null){
+                products = products.Where(p => p.Name == name);
+            }
+            if(type != null){
+                products = products.Where(p => p.Type == type);
+            }
+            return first < 0 ? products : products.Take(first);
         }
     }
 }

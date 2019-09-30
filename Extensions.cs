@@ -21,7 +21,7 @@ namespace productsWebapi
             var items = await repo.All().ConfigureAwait(false);
             return items.Where(item => item.RelationId == relation.Id);
         }
-        public static async Task<ILookup<Guid, TItem>> For<TItem>(this IRepository<TItem> repo, IEnumerable<IIdentifiable> relations)
+        public static async Task<ILookup<Int32, TItem>> For<TItem>(this IRepository<TItem> repo, IEnumerable<IIdentifiable> relations)
             where TItem: IIdentifiable, IRelatable
         {
             // All() --> Badness!

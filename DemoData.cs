@@ -10,12 +10,12 @@ namespace productsWebapi
     {
         private sealed class Data
         {
-            public Dictionary<Guid, Review> Reviews {get;}
-            public Dictionary<Guid, IProduct> Products {get;}
+            public Dictionary<Int32, Review> Reviews {get;}
+            public Dictionary<Int32, IProduct> Products {get;}
 
             public Data(){
-                Reviews = new Dictionary<Guid, Review>();
-                Products = new Dictionary<Guid, IProduct>();
+                Reviews = new Dictionary<Int32, Review>();
+                Products = new Dictionary<Int32, IProduct>();
             }
 
             public void Add(IProduct product){
@@ -66,7 +66,7 @@ namespace productsWebapi
             data.Add(shoe.With(44, 9));
             data.Add(shoe.With(45, 2));         
         }
-        private static void Add<TItem>(this Dictionary<Guid, TItem> d, TItem item)
+        private static void Add<TItem>(this Dictionary<Int32, TItem> d, TItem item)
             where TItem: IIdentifiable
         {
             d.Add(item.Id, item);

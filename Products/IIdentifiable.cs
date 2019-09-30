@@ -4,6 +4,6 @@ namespace productsWebapi.Products
 {
     public interface IIdentifiable
     {
-        Guid Id {get;}   
+        Int32 Id {get;}   
     }
 }

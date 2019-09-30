@@ -4,6 +4,6 @@ namespace productsWebapi.Products
 {
     public interface IRelatable
     {
-         Guid RelationId {get;}
+         Int32 RelationId {get;}
     }
 }

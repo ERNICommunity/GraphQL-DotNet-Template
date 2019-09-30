@@ -9,8 +9,8 @@ namespace productsWebapi.Repositories
     public sealed class InMemoryRepository<TItem> : IMutableRepository<TItem>
         where TItem: IIdentifiable
     {
-        private readonly IDictionary<Guid, TItem> _repo;
-        public InMemoryRepository(IDictionary<Guid, TItem> repo){
+        private readonly IDictionary<Int32, TItem> _repo;
+        public InMemoryRepository(IDictionary<Int32, TItem> repo){
             _repo = repo;
         }
         public async Task<IEnumerable<TItem>> All()
@@ -18,7 +18,7 @@ namespace productsWebapi.Repositories
             await Task.Delay(100).ConfigureAwait(false);
             return this;
         }
-        public async Task<TItem> Find(Guid id)
+        public async Task<TItem> Find(Int32 id)
         {
             await Task.Delay(60).ConfigureAwait(false);
             _repo.TryGetValue(id, out TItem item);
