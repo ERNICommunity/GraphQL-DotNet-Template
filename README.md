@@ -2,7 +2,7 @@
 This is a simple [GraphQL](https://graphql.org/) template project written in C#.
 
 ## Context
-The project exposes a simplified webshop api. There are three types of product ([Book](GraphQl\Types\BookType.cs), [Film](GraphQl\Types\FilmType.cs), [Shoe](GraphQl\Types\ShoeType.cs)) which share [common data](GraphQl\Types\ProductInterface.cs), but also have distinct data fields.
+The project exposes a simplified webshop api. There are three types of product ([Book](GraphQl/Types/BookType.cs), [Film](GraphQl/Types/FilmType.cs), [Shoe](GraphQl/Types/ShoeType.cs)) which share [common data](GraphQl/Types/ProductInterface.cs), but also have distinct data fields.
 Users have the ability commit reviews to each product. Further, if a user is interested in a product and would like to be notified when a new review is added, he or she can subscribe to new reviews being added.
 
 ## Why GraphQL?
@@ -20,17 +20,17 @@ The Products and Reviews are modelled as separate tables in some db, where the r
 
 With this architecture it is possible to demonstrate the most important aspects of an api built using GraphQL.
 
-- queries
+- **queries**
   - aggregation
   - filtering
   - selecting
   - range limiting (hint to pagination)
-- mutations
+- **mutations**
   - add data
   - *not implemented*
     - delete data
     - change data
-- subscriptions
+- **subscriptions**
   - subscription to events
 
 ## Running
