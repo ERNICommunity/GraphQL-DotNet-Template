@@ -73,6 +73,7 @@ namespace productsWebapi
             }
             // Check these settings!
             app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+            app.UseWebSockets();
             app.UseGraphQLWebSockets<ProductSchema>();
             app.UseGraphQL<ProductSchema>();
             app.UseGraphQLPlayground(new GraphQLPlaygroundOptions());
