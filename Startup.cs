@@ -39,11 +39,10 @@ namespace productsWebapi
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-            var logLevel = LogEventLevel.Information;
             ILogger log = new LoggerConfiguration()
                                 .MinimumLevel.Information()
-                                .MinimumLevel.Override("Microsoft", logLevel)
-                                .MinimumLevel.Override("GraphQL", logLevel)
+                                .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+                                .MinimumLevel.Override("GraphQL", LogEventLevel.Debug)
                                 .WriteTo.Console()
                                 .CreateLogger();
             services.AddLogging(l => l.AddSerilog(log));
