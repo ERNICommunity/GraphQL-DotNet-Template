@@ -2,18 +2,18 @@
 using GraphQL;
 using GraphQL.Server;
 using GraphQL.Server.Ui.Playground;
+using Serilog;
+using Serilog.Events;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Serilog;
 using productsWebapi.GraphQl;
 using productsWebapi.GraphQl.Messaging;
 using productsWebapi.Products;
 using productsWebapi.Repositories;
 using static productsWebapi.DemoData;
-using Serilog.Events;
 
 namespace productsWebapi
 {
