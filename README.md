@@ -33,6 +33,16 @@ With this architecture it is possible to demonstrate the most important aspects 
 - **subscriptions**
   - subscription to events
 
+## Installing as Template
+This project can be installed as a dotnet template project on your system. In order to do that, navigate into the projects root directory and run
+```Shell
+dotnet new -i .
+```
+After the template has been installed, you can create a new project by running
+```Shell
+dotnet new graphql-webapi
+```
+
 ## Running
 Run the command `dotnet run` in a terminal and then open a browser at the projects ui [playground](https://localhost:5001/ui/playground).
 

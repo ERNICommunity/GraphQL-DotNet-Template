@@ -1,0 +1,13 @@
+{
+    "$schema": "http://json.schemastore.org/template",
+    "author": "Thomas Kägi",
+    "classifications": [ "GraphQL", "ASP.NET Core", "ASP.NET" ],
+    "identity": "Erni.AspDotNetCore.GraphQL",
+    "name": "GraphQL Web Api Project",
+    "shortName": "graphql-webapi",
+    "tags": {
+        "language": "C#"
+    },
+    "sourceName": "productsWebapi",
+    "preferNameDirectory": true
+  }
