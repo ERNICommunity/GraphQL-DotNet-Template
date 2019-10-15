@@ -10,7 +10,8 @@ namespace productsWebapi.GraphQl
             Query = resolver.Resolve<ProductQuery>();
             Mutation = resolver.Resolve<ProductMutation>();
             Subscription = resolver.Resolve<ReviewSupscription>();
-            // This be uglyness!
+
+            // This be ugliness!
             RegisterType<BookType>();
             RegisterType<FilmType>();
             RegisterType<ShoeType>();

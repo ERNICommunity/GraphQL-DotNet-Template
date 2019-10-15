@@ -36,10 +36,11 @@ With this architecture it is possible to demonstrate the most important aspects 
 ## Running
 Run the command `dotnet run` in a terminal and then open a browser at the projects ui [playground](https://localhost:5001/ui/playground).
 
-Use that web frontend of the api to explore the (generated) GraphQL schema and documentation to explore the api. You can also interact with the server through a web interface that comes with intellisense to submit queries and mutation requests. If two browser pages are opened, GraphQLs subscription feature can also be tested.
+Use that web frontend of the api to explore the (generated) GraphQL schema and documentation. You can also interact with the server through a web interface that comes with intellisense to submit queries and mutation requests. If two browser pages are opened, GraphQLs subscription feature can also be tested.
 
 ### Sample Messages
 The [playground](https://localhost:5001/ui/playground) ui has built in intellisense, so feel free to use the following examples as a starting point to generate your own messages.
+
 #### Queries
 ```
 {
@@ -104,6 +105,7 @@ The [playground](https://localhost:5001/ui/playground) ui has built in intellise
   }
 }
 ```
+
 #### Mutations
 ```
 mutation {
@@ -128,6 +130,7 @@ mutation {
   }
 }
 ```
+
 #### Subscriptions
 ```
 subscription{
