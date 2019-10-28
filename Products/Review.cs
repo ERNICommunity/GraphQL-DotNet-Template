@@ -7,6 +7,8 @@ namespace productsWebapi.Products
         public Int32 Id {get;}
         public String Title {get;}
         public String Text {get;}
+
+        // This would be a product id!! See note on IRelatable
         public abstract Int32 RelationId { get; }
         // Badness exposing a name here :-/
         public abstract String RelationName { get; }

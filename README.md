@@ -5,6 +5,8 @@ This is a simple [GraphQL](https://graphql.org/) template project written in C#.
 The project exposes a simplified webshop api. There are three types of product ([Book](GraphQl/Types/BookType.cs), [Film](GraphQl/Types/FilmType.cs), [Shoe](GraphQl/Types/ShoeType.cs)) which share [common data](GraphQl/Types/ProductInterface.cs), but also have distinct data fields.
 Users have the ability commit reviews to each product. Further, if a user is interested in a product and would like to be notified when a new review is added, he or she can subscribe to new reviews being added.
 
+ToDo: Add Scope
+
 ## Why GraphQL?
 Currently (2019) many new apis are realised using RESTful service. Before REST the dominant technology was SOAP, which still accounts for many existing web services. GraphQL was published as an open specification in 2016 by Facebook and has since gained considerable adoption in the community and is generally liked by many developers for its user friendly design.
 

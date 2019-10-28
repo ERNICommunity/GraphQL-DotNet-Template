@@ -19,6 +19,8 @@ namespace productsWebapi.GraphQl {
             // Badness: This dependency should be removed!
             _messageService = messageService;
             var args = new QueryArguments (new QueryArgument<NonNullGraphType<ReviewInputType>> { Name = reviewArg });
+
+            // Are there GraphQL naming patterns for mutations!
             FieldAsync<ReviewType> ("createReview", arguments : args, resolve : AddReview);
         }
 

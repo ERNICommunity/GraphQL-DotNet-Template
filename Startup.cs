@@ -52,11 +52,15 @@ namespace productsWebapi
             services.AddScoped<IDependencyResolver>(s => new FuncDependencyResolver(s.GetRequiredService));
             services.AddSingleton<ReviewMessageService>();
             services.AddScoped<ProductSchema>();
+
+            // Look into: BoundedContextInitializationClass. Here out of scope, consider using if this becomes a template.
             
             services.AddGraphQL(o => { o.ExposeExceptions = _env.IsDevelopment(); })
                 .AddGraphTypes(ServiceLifetime.Scoped)
                 .AddUserContextBuilder(context => context.User)
                 .AddWebSockets();
+            
+            // Check if both Cors services are required, here and in Configure
             services.AddCors();
         }
 
@@ -74,6 +78,9 @@ namespace productsWebapi
             // Check these settings!
             app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
             app.UseWebSockets();
+            
+            // This is an example of the bounded context initialization class
+            // in services not as static extension methods, but as class instances.
             app.UseGraphQLWebSockets<ProductSchema>();
             app.UseGraphQL<ProductSchema>();
             app.UseGraphQLPlayground(new GraphQLPlaygroundOptions());

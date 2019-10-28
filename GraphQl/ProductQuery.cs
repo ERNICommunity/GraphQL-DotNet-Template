@@ -9,6 +9,7 @@ using productsWebapi.Repositories;
 
 namespace productsWebapi.GraphQl
 {
+    // These classes that expose API components, ought to expose docs that comply with OpenAPI
     public sealed class ProductQuery : ObjectGraphType
     {
         const String idArg = "id";
@@ -32,6 +33,7 @@ namespace productsWebapi.GraphQl
             Field<ListGraphType<ProductInterface>>("products", arguments: productsArgs, resolve: ResolveProducts);
         }
 
+        // This ougth to be documented as this method actually resolves the product in the public API
         private IProduct ResolveProduct(ResolveFieldContext<Object> context)
         {
             var id = context.GetArgument<Int32>(idArg);
@@ -45,6 +47,12 @@ namespace productsWebapi.GraphQl
 
         private async Task<IEnumerable<IProduct>> ResolveProducts(ResolveFieldContext<Object> context)
         {
+            // These queries should use some mapping from internal entities
+            // and map the internal instances to public strongly typed instances
+            // Mapping:
+            // - https://automapper.org/
+            // - http://docs.automapper.org/en/stable/Projection.html
+            
             var first = context.GetArgument<Int32>(firstArg);
             var name = context.GetArgument<String>(nameArg);
             var type = context.GetArgument<String>(typeArg);
