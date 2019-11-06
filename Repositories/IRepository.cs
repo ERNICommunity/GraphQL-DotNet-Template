@@ -8,7 +8,7 @@ namespace productsWebapi.Repositories
     public interface IRepository<TItem>: IEnumerable<TItem>
         where TItem: IIdentifiable
     {
-         Task<TItem> Find(Int32 id);
+         Task<TItem> Find(String id);
          Task<IEnumerable<TItem>> All();
     }
 }

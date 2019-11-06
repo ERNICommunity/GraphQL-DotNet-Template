@@ -9,16 +9,16 @@ namespace productsWebapi.Repositories
     public sealed class InMemoryRepository<TItem> : IMutableRepository<TItem>
         where TItem: IIdentifiable
     {
-        private readonly IDictionary<Int32, TItem> _repo;
-        public InMemoryRepository(IDictionary<Int32, TItem> repo){
-            _repo = repo;
+        private readonly IDictionary<String, TItem> _repo;
+        public InMemoryRepository(IDictionary<String, TItem> repo){
+            _repo = repo; // Technically we'd need to copy the dict here.
         }
         public async Task<IEnumerable<TItem>> All()
         {
             await Task.Delay(100).ConfigureAwait(false);
             return this;
         }
-        public async Task<TItem> Find(Int32 id)
+        public async Task<TItem> Find(String id)
         {
             await Task.Delay(60).ConfigureAwait(false);
             _repo.TryGetValue(id, out TItem item);

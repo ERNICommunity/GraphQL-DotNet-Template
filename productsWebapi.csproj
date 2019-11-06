@@ -7,6 +7,7 @@
 
 
   <ItemGroup>
+    <PackageReference Include="shortid" Version="2.0.0" />
     <PackageReference Include="GraphQl" Version="2.4.0" />
     <PackageReference Include="GraphQl.Server.Core" Version="3.4.0" />
     <PackageReference Include="GraphQl.Server.Transports.AspNetCore" Version="3.4.0" />

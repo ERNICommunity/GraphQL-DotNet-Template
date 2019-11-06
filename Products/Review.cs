@@ -4,10 +4,10 @@ namespace productsWebapi.Products
 {
     public abstract class Review: IIdentifiable, IRelatable
     {
-        public Int32 Id {get;}
+        public String Id {get;}
         public String Title {get;}
         public String Text {get;}
-        public abstract Int32 RelationId { get; }
+        public abstract String RelationId { get; }
         // Badness exposing a name here :-/
         public abstract String RelationName { get; }
         protected Review(String title, String text){
@@ -21,7 +21,7 @@ namespace productsWebapi.Products
         where TProduct : IProduct
     {
         public TProduct Product { get; }
-        public override Int32 RelationId => Product.Id;
+        public override String RelationId => Product.Id;
         public override String RelationName => Product.Name;
         internal Review(TProduct product, String title, String text)
             :base(title, text)

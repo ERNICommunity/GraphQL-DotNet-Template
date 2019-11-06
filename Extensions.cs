@@ -9,10 +9,10 @@ namespace productsWebapi
 {
     public static class Extensions
     {
-        public static Review<TPoduct> Review<TPoduct>(this TPoduct product, String title, String text)
-            where TPoduct: IProduct
+        public static Review<TProduct> Review<TProduct>(this TProduct product, String title, String text)
+            where TProduct: IProduct
         {
-            return new Review<TPoduct>(product, title, text);
+            return new Review<TProduct>(product, title, text);
         }
         public static async Task<IEnumerable<TItem>> For<TItem>(this IRepository<TItem> repo, IIdentifiable relation)
             where TItem: IIdentifiable, IRelatable
@@ -21,7 +21,7 @@ namespace productsWebapi
             var items = await repo.All().ConfigureAwait(false);
             return items.Where(item => item.RelationId == relation.Id);
         }
-        public static async Task<ILookup<Int32, TItem>> For<TItem>(this IRepository<TItem> repo, IEnumerable<IIdentifiable> relations)
+        public static async Task<ILookup<String, TItem>> For<TItem>(this IRepository<TItem> repo, IEnumerable<IIdentifiable> relations)
             where TItem: IIdentifiable, IRelatable
         {
             // All() --> Badness!

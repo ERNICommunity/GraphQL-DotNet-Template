@@ -22,7 +22,7 @@ namespace productsWebapi.GraphQl
         {
             _repo = repo;
             var productArgs = new QueryArguments(
-                new QueryArgument<NonNullGraphType<IdGraphType>>{Name = idArg});
+                new QueryArgument<NonNullGraphType<StringGraphType>>{Name = idArg});
             var productsArgs = new QueryArguments(
                 new QueryArgument<IntGraphType>{Name = firstArg, DefaultValue=-1},
                 new QueryArgument<StringGraphType>{Name = nameArg, DefaultValue=null},           
@@ -34,7 +34,7 @@ namespace productsWebapi.GraphQl
 
         private IProduct ResolveProduct(ResolveFieldContext<Object> context)
         {
-            var id = context.GetArgument<Int32>(idArg);
+            var id = context.GetArgument<String>(idArg);
             var type = context.GetArgument<String>(typeArg);
             var products = _repo.Where(product => product.Id == id);
             if(!String.IsNullOrEmpty(type)){
