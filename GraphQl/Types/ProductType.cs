@@ -10,6 +10,7 @@ namespace productsWebapi.GraphQl.Types
     {
         public ProductType(IRepository<Review> reviews, String name){
             Name = name;
+            // Best solution at a somewhat clumsy graphql-dotnet requirement.
             ProductInterface.Register<TProduct>(this, context => reviews.For(context.Source));
             Interface<ProductInterface>();
         }
