@@ -45,15 +45,14 @@ With this architecture it is possible to demonstrate the most important aspects 
   - subscription to events
 
 ### Points Of Improvement
-
-- The publicly exposed UUIDs should not be used internally to relate reviews to products.
+- The publicly exposed IDs should not be used internally to relate reviews to products. Furthermore, consider using UUIDs.
 - GraphQL offers a caching mechanism using a so called [DataLoader](https://github.com/graphql/dataloader). This could be added to this project
-- Even though GraphQLs query language is type safe, the implementation of the types under the directory "[Types](GraphQL/Types/)" is not type safe with regard to the .Net type system
+- Even though GraphQLs query language is type safe, the implementation of the types under the directory "[Types](GraphQl/Types/)" is not type safe with regard to the .Net type system
 - Some solutions can be considered clumsy, such as
-  - Needing to register the product interface definition separately in each [product](GraphQL/Types/ProductType).
-  - The schema [implementation](GraphQL/ProductSchema.cs) has to be told explicitly what concrete types are available.
-  - Similarly, the [mutation](GraphQL/ProductMutation.cs) has to know about every product type, too.
-- For some reason the GraphiQL documentation does not load when subscriptions are enabled. (Comment out the subscriptions in the [schema](GraphQL/ProductSchema.cs) in order to get the docs.)
+  - Needing to register the product interface definition separately in each [product](GraphQl/Types/ProductType.cs).
+  - The schema [implementation](GraphQl/ProductSchema.cs) has to be told explicitly what concrete types are available.
+  - Similarly, the [mutation](GraphQl/ProductMutation.cs) has to know about every product type, too.
+- For some reason the GraphiQL documentation does not load when subscriptions are enabled. (Comment out the subscriptions in the [schema](GraphQl/ProductSchema.cs) in order to get the docs.)
 
 ## Running
 Run the command `dotnet run` in a terminal in the toplevel directory of the repo and then open a browser at the projects ui [playground](https://localhost:5001/ui/playground).
