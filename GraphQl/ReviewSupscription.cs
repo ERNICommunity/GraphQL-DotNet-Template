@@ -9,7 +9,7 @@ namespace productsWebapi.GraphQl
     {
         public ReviewSupscription(ReviewMessageService messageService)
         {
-            Name = "Review Subscription";
+            Name = nameof(ReviewSupscription);
             AddField(new EventStreamFieldType{
                 Name = "reviewAdded",
                 Type = typeof(ReviewAddedMessageType),

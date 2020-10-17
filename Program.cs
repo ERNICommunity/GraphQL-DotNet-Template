@@ -7,11 +7,8 @@ namespace productsWebapi
     {
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+            var builder = WebHost.CreateDefaultBuilder(args).UseStartup<Startup>();
+            builder.Build().Run();
         }
-
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
     }
 }

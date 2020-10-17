@@ -2,13 +2,11 @@
 using System;
 using GraphQL;
 using GraphQL.Server;
-using GraphQL.Server.Ui.Playground;
 using Serilog;
 using Serilog.Events;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using productsWebapi.GraphQl;
@@ -21,14 +19,12 @@ namespace productsWebapi
 {
     public class Startup
     {
-        private readonly IConfiguration _config;
         private readonly IWebHostEnvironment _env;
         private readonly IRepository<IProduct> _products;
         private readonly IMutableRepository<Review> _reviews;
-        public Startup(IConfiguration config, IWebHostEnvironment env)
+        public Startup(IWebHostEnvironment env)
         {
             _env = env;
-            _config = config;
             Seed(out _products, out _reviews);
         }
 
@@ -42,9 +38,9 @@ namespace productsWebapi
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
             ILogger log = new LoggerConfiguration()
-                                .MinimumLevel.Information()
-                                .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
-                                .MinimumLevel.Override("GraphQL", LogEventLevel.Debug)
+                                .MinimumLevel.Warning()
+                                .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+                                .MinimumLevel.Override("GraphQL", LogEventLevel.Information)
                                 .WriteTo.Console()
                                 .CreateLogger();
             services.AddLogging(l => l.AddSerilog(log));
@@ -64,7 +60,8 @@ namespace productsWebapi
             .AddGraphTypes(ServiceLifetime.Scoped)
             .AddSystemTextJson(deserializerSettings => { }, serializerSettings => { })
             .AddErrorInfoProvider(opt => opt.ExposeExceptionStackTrace = _env.IsDevelopment())
-            .AddWebSockets();
+            .AddWebSockets()
+            .AddGraphTypes(typeof(ProductSchema));
             services.AddCors();
         }
 
@@ -85,7 +82,7 @@ namespace productsWebapi
             app.UseGraphQLWebSockets<ProductSchema>();
             app.UseGraphQL<ProductSchema>();
             app.UseGraphiQLServer();
-            app.UseGraphQLPlayground(new GraphQLPlaygroundOptions());
+            app.UseGraphQLPlayground();
             app.UseCookiePolicy();
         }
     }
