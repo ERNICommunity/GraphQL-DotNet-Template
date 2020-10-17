@@ -1,4 +1,3 @@
-using System;
 using productsWebapi.Products;
 using productsWebapi.Repositories;
 namespace productsWebapi.GraphQl.Types

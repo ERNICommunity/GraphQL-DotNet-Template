@@ -1,13 +1,14 @@
 using System;
-using System.Linq;
 using System.Threading.Tasks;
+using GraphQL;
 using GraphQL.Types;
 using productsWebapi.GraphQl.Messaging;
 using productsWebapi.GraphQl.Types;
 using productsWebapi.Products;
 using productsWebapi.Repositories;
 
-namespace productsWebapi.GraphQl {
+namespace productsWebapi.GraphQl
+{
     public sealed class ProductMutation : ObjectGraphType {
         const String reviewArg = "review";
         readonly IRepository<IProduct> _productRepo;
@@ -22,12 +23,11 @@ namespace productsWebapi.GraphQl {
             FieldAsync<ReviewType> ("createReview", arguments : args, resolve : AddReview);
         }
 
-        private async Task<Object> AddReview (ResolveFieldContext<Object> context) {
+        private async Task<Object> AddReview (IResolveFieldContext<Object> context) {
             var review = await CreateReview (context.GetArgument<ReviewDto> (reviewArg)).ConfigureAwait(false);
-            return await context.TryAsyncResolve (async c => {
-                Review r = await _reviewRepo.Add(review).ConfigureAwait(false);
-                _messageService.AddReviewAddedMessage(r);
-                return r;}).ConfigureAwait (false);
+            await _reviewRepo.Add(review).ConfigureAwait(false);
+            _messageService.AddReviewAddedMessage(review);
+            return review;
         }
 
         private async Task<Review> CreateReview (ReviewDto reviewDto) {
@@ -37,16 +37,15 @@ namespace productsWebapi.GraphQl {
             }
             String text = reviewDto.Text;
             String title = reviewDto.Title;
-            switch (product) {
+            return product switch
+            {
                 // Badness having to switch over the types!
-                case Book book:
-                    return new Review<Book> (book, title, text);
-                case Film film:
-                    return new Review<Film> (film, title, text);
-                case Shoe shoe:
-                    return new Review<Shoe> (shoe, title, text);
-            }
-            throw new ArgumentOutOfRangeException ($"Unknown how to add a review to a product of type '{product.Type}'.");
+                Book book => new Review<Book>(book, title, text),
+                Film film => new Review<Film>(film, title, text),
+                Shoe shoe => new Review<Shoe>(shoe, title, text),
+                _ => throw new ArgumentOutOfRangeException(
+                    $"Unknown how to add a review to a product of type '{product.Type}'.")
+            };
         }
     }
 }

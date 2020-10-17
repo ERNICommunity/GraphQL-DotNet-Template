@@ -1,4 +1,5 @@
 
+using System;
 using GraphQL;
 using GraphQL.Server;
 using GraphQL.Server.Ui.Playground;
@@ -9,6 +10,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using productsWebapi.GraphQl;
 using productsWebapi.GraphQl.Messaging;
 using productsWebapi.Products;
@@ -20,10 +22,10 @@ namespace productsWebapi
     public class Startup
     {
         private readonly IConfiguration _config;
-        private readonly IHostingEnvironment _env;
+        private readonly IWebHostEnvironment _env;
         private readonly IRepository<IProduct> _products;
         private readonly IMutableRepository<Review> _reviews;
-        public Startup(IConfiguration config, IHostingEnvironment env)
+        public Startup(IConfiguration config, IWebHostEnvironment env)
         {
             _env = env;
             _config = config;
@@ -49,19 +51,25 @@ namespace productsWebapi
             services.AddScoped<IRepository<IProduct>>(_ => _products);
             services.AddScoped<IRepository<Review>>(_ => _reviews);
             services.AddScoped<IMutableRepository<Review>>(_ => _reviews);
-            services.AddScoped<IDependencyResolver>(s => new FuncDependencyResolver(s.GetRequiredService));
+            services.AddScoped<IServiceProvider>(s => new FuncServiceProvider(s.GetRequiredService));
             services.AddSingleton<ReviewMessageService>();
             services.AddScoped<ProductSchema>();
             
-            services.AddGraphQL(o => { o.ExposeExceptions = _env.IsDevelopment(); })
-                .AddGraphTypes(ServiceLifetime.Scoped)
-                .AddUserContextBuilder(context => context.User)
-                .AddWebSockets();
+            services.AddGraphQL((options, provider) =>
+                    {
+                        options.EnableMetrics = _env.IsDevelopment();
+                        options.UnhandledExceptionDelegate = ctx => log.Error(ctx.OriginalException.Message, "{Error} occured");
+                    }
+                )
+            .AddGraphTypes(ServiceLifetime.Scoped)
+            .AddSystemTextJson(deserializerSettings => { }, serializerSettings => { })
+            .AddErrorInfoProvider(opt => opt.ExposeExceptionStackTrace = _env.IsDevelopment())
+            .AddWebSockets();
             services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -76,6 +84,7 @@ namespace productsWebapi
             app.UseWebSockets();
             app.UseGraphQLWebSockets<ProductSchema>();
             app.UseGraphQL<ProductSchema>();
+            app.UseGraphiQLServer();
             app.UseGraphQLPlayground(new GraphQLPlaygroundOptions());
             app.UseCookiePolicy();
         }

@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using GraphQL;
 using GraphQL.Types;
 using productsWebapi.GraphQl.Types;
 using productsWebapi.Products;
@@ -32,7 +33,7 @@ namespace productsWebapi.GraphQl
             Field<ListGraphType<ProductInterface>>("products", arguments: productsArgs, resolve: ResolveProducts);
         }
 
-        private IProduct ResolveProduct(ResolveFieldContext<Object> context)
+        private IProduct ResolveProduct(IResolveFieldContext<Object> context)
         {
             var id = context.GetArgument<String>(idArg);
             var type = context.GetArgument<String>(typeArg);
@@ -43,7 +44,7 @@ namespace productsWebapi.GraphQl
             return products.FirstOrDefault();
         }
 
-        private async Task<IEnumerable<IProduct>> ResolveProducts(ResolveFieldContext<Object> context)
+        private async Task<IEnumerable<IProduct>> ResolveProducts(IResolveFieldContext<Object> context)
         {
             var first = context.GetArgument<Int32>(firstArg);
             var name = context.GetArgument<String>(nameArg);

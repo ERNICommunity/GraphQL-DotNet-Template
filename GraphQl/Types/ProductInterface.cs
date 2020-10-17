@@ -1,4 +1,5 @@
 using System;
+using GraphQL;
 using GraphQL.Types;
 using productsWebapi.Products;
 
@@ -12,7 +13,7 @@ namespace productsWebapi.GraphQl.Types
             Register<IProduct>(this);
         }
 
-        internal static void Register<TProduct>(ComplexGraphType<TProduct> type, Func<ResolveFieldContext<TProduct>, Object> reviewResolver=null)
+        internal static void Register<TProduct>(ComplexGraphType<TProduct> type, Func<IResolveFieldContext<TProduct>, Object> reviewResolver=null)
             where TProduct: IProduct
         {
             type.Field(p => p.Name).Description("The products name");

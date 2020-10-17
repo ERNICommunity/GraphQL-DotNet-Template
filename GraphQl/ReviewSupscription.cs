@@ -1,6 +1,3 @@
-using System;
-using System.Reactive.Linq;
-using System.Reactive.Subjects;
 using GraphQL.Types;
 using GraphQL.Resolvers;
 using productsWebapi.GraphQl.Types;
